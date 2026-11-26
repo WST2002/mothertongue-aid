@@ -98,7 +98,7 @@ First-aid answers are adapted from Health New Zealand | Te Whatu Ora first-aid p
 
 For each question and language, the final file keeps the first Adaption version that passes all of these checks. Rows with no passing version went back through Adaptive Data for their country only, until every row passed.
 
-- **Rule checks:** the country's own emergency number is present and no other country's number or name appears (English rows name no country number); no advice outside the Health NZ guidance this dataset follows (for example abdominal thrusts, or "do not give back blows" where back blows are the guidance); no draining water after drowning; no medicine doses; no known Hausa wording errors; no rows in the wrong language.
+- **Rule checks:** the country's own emergency number is present and no other country's number or name appears (English rows name no country number); no advice outside the Health NZ guidance this dataset follows (for example abdominal thrusts, or "do not give back blows" where back blows are the guidance); no draining water after drowning; no medicine doses; no known Hausa wording errors; Bengali back blows written as blows (চাপড়), not presses (চাপ); no rows in the wrong language.
 - **Meaning check:** `deepseek-v4-flash` compares each answer with its English reference and marks every difference as critical (could change what the rescuer does) or minor. It sees the question and the country, so leaving out a branch the question rules out is allowed (a cut wrist needs "raise the arm", not "the arm or leg"). Each row is read twice, independently; one critical finding rejects it.
 
 ## Evaluation
@@ -207,6 +207,7 @@ Every run ID is in `adaption/runs.md`. The main steps:
 | 26 Nov 12:30 | fix runs 3 to 7 | Blueprint names phrases that kept changing (cover, not wipe; cool shower, not a bath; head and jaw; tell the operator it is a baby) | 81 → 31 → 13 → 3 → 0: all 1,212 rows pass |
 | 26 Nov | evaluation | 80 held-out questions, 1,200 answers, two judges, plain-translation baseline | see [Evaluation](#evaluation) |
 | 26 Nov 22:20 | score probe, 4 × 40 rows | one setting removed per run | only removing the Blueprint raises the platform score, and those rows fail our checks (see [Notes on Adaption's scores](#notes-on-adaptions-scores)) |
+| 26 Nov 23:30 | second-family judge | `glm-5.2` re-read the final rows | it caught what the first judge missed: 50 Bengali choking rows wrote back blows as "press" (চাপ দিন). New rule check and Blueprint rule; those 50 rows re-made in fix runs 6 to 12 until all passed again |
 
 ## Team
 
