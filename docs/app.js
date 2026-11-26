@@ -27,13 +27,28 @@
     clarify: "Clarifying question"
   };
 
+  const EVAL_LANGS = {
+    en: { name: "English", native: "English", meta: "No country number", htmlLang: "en", number: null },
+    ha: { name: "Hausa (Nigeria)", native: "Hausa", meta: "Nigeria · 112", htmlLang: "ha", number: "112" },
+    bn: { name: "Bengali (Bangladesh)", native: "বাংলা", meta: "Bangladesh · 999", htmlLang: "bn", number: "999" },
+    bnin: { name: "Bengali (India)", native: "বাংলা", meta: "India · 112", htmlLang: "bn", number: "112" }
+  };
+
+  const EVAL_SYSTEMS = {
+    plain: { title: "Model on its own", note: "No dataset rows" },
+    translated: { title: "Plain translation rows", note: "English rows put through plain machine translation" },
+    improved: { title: "MotherTongue Aid rows", note: "Rows from this dataset" }
+  };
+
+  const DEFAULT_EVAL = { id: "eval-016", lang: "ha" };
+
   const MATCH_THRESHOLD = 0.28;
   const PAGE_SIZE = 10;
   const EXAMPLE_SCENARIOS = ["choking", "bleeding", "burns"];
 
   const $ = (id) => document.getElementById(id);
 
-  const state = { lang: "en", page: 1, data: null, index: null };
+  const state = { lang: "en", page: 1, data: null, index: null, eval: null, evalLang: DEFAULT_EVAL.lang };
 
   function escapeHtml(text) {
     return text.replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
@@ -54,8 +69,15 @@
       const line = raw.trim();
       const step = line.match(/^([0-9০-৯]+)[.)]\s+(.*)$/);
       const bullet = line.match(/^[-*•]\s+(.*)$/);
-      if (!line) {
+      const heading = line.match(/^#{1,6}\s+(.*)$/);
+      if (!line || /^([-*_])\1{2,}$/.test(line) || /^\|[\s:|-]+\|$/.test(line)) {
         close();
+      } else if (heading) {
+        close();
+        out.push(`<p class="h">${inline(heading[1])}</p>`);
+      } else if (line.startsWith("|")) {
+        close();
+        out.push(`<p>${inline(line.replace(/^\||\|$/g, "").split("|").map((cell) => cell.trim()).join(" · "))}</p>`);
       } else if (step) {
         if (!list || list.type !== "steps") { close(); list = { type: "steps" }; out.push('<ol class="steps">'); }
         out.push(`<li><span class="n">${escapeHtml(step[1])}</span><span>${inline(step[2])}</span></li>`);
@@ -388,6 +410,134 @@
     render();
   }
 
+  function pct(part, total) {
+    if (!total) return "n/a";
+    const tenths = (1000 * part) / total;
+    const floor = Math.floor(tenths);
+    const rounded = tenths - floor === 0.5 ? floor + (floor % 2) : Math.round(tenths);
+    return `${(rounded / 10).toFixed(1)}%`;
+  }
+
+  function badge(kind, icon, text, title) {
+    const tip = title ? ` title="${escapeHtml(title)}"` : "";
+    return `<span class="badge ${kind}"${tip}><svg aria-hidden="true"><use href="#${icon}"/></svg><span>${escapeHtml(text)}</span></span>`;
+  }
+
+  function evalItem() {
+    return state.eval.items.find((it) => it.id === $("diff-question").value) || state.eval.items[0];
+  }
+
+  function systemsFor(lang) {
+    return state.eval.systems.filter((sys) => state.eval.items.some((it) => it.a[lang][sys]));
+  }
+
+  function renderDiffLangs() {
+    $("diff-lang").innerHTML = state.eval.langs.map((code) => {
+      const info = EVAL_LANGS[code];
+      return `<button type="button" class="lang-option" role="radio" data-lang="${code}" aria-checked="${code === state.evalLang}">
+        <span class="native" lang="${info.htmlLang}">${escapeHtml(info.native)}</span><span class="meta">${escapeHtml(info.meta)}</span></button>`;
+    }).join("");
+  }
+
+  function meterStat(kind, count, total, label) {
+    return `<div class="sum-stat ${kind}"><span class="sum-num">${pct(count, total)}</span><span class="sum-label">${escapeHtml(label)}</span>
+      <span class="meter" aria-hidden="true"><span style="width:${total ? (100 * count) / total : 0}%"></span></span></div>`;
+  }
+
+  function renderDiffSummary() {
+    const lang = state.evalLang;
+    const info = EVAL_LANGS[lang];
+    const cards = systemsFor(lang).map((sys) => {
+      const rows = state.eval.items.map((it) => it.a[lang][sys]).filter(Boolean);
+      const dangerous = rows.filter((r) => r.d).length;
+      const right = rows.filter((r) => r.n).length;
+      return `<div class="sum-card sys-${sys}">
+        <h3>${escapeHtml(EVAL_SYSTEMS[sys].title)}</h3>
+        ${meterStat("danger", dangerous, rows.length, "dangerous")}
+        ${info.number ? meterStat("number", right, rows.length, `right number ${info.number}`) : ""}
+      </div>`;
+    }).join("");
+    $("diff-summary").innerHTML = `<p class="sum-title">All ${state.eval.items.length} test questions in ${escapeHtml(info.name)}</p><div class="sum-grid">${cards}</div>`;
+  }
+
+  function diffCard(sys, entry, lang) {
+    const info = EVAL_LANGS[lang];
+    const meta = EVAL_SYSTEMS[sys];
+    const reasons = entry.r || [];
+    const badges = [
+      entry.d ? badge("bad", "i-alert", "Dangerous", reasons.join(" | ")) : badge("good", "i-check", "No danger found"),
+      info.number
+        ? (entry.n ? badge("good", "i-phone", `Right number ${info.number}`) : badge("bad", "i-x", `No right number ${info.number}`))
+        : "",
+      entry.f ? badge("good", "i-check", "Calls for help first") : badge("bad", "i-x", "Help not called first"),
+      entry.s === null ? "" : badge("neutral", "i-steps", `Required steps ${entry.s}%`)
+    ].join("");
+    const why = reasons.length
+      ? `<div class="why"><span class="why-label">Why it is dangerous</span><ul>${reasons.map((r) => `<li>${escapeHtml(r)}</li>`).join("")}</ul></div>`
+      : "";
+    const translation = entry.t
+      ? `<details class="tr"><summary><svg aria-hidden="true"><use href="#i-globe"/></svg><span>English translation</span><svg class="chev" aria-hidden="true"><use href="#i-chevron"/></svg></summary>
+          <div class="body" lang="en">${renderAnswer(entry.t)}</div></details>`
+      : "";
+    return `<article class="diff-card sys-${sys}${entry.d ? " is-dangerous" : ""}">
+      <header><h3>${escapeHtml(meta.title)}</h3><p>${escapeHtml(meta.note)}</p></header>
+      <div class="badges">${badges}</div>
+      ${why}
+      <div class="body answer-scroll" lang="${info.htmlLang}" tabindex="0" role="region" aria-label="${escapeHtml(meta.title)}: answer">${renderAnswer(entry.a)}</div>
+      ${translation}
+    </article>`;
+  }
+
+  function renderDiff() {
+    const item = evalItem();
+    const lang = state.evalLang;
+    const info = EVAL_LANGS[lang];
+    const english = lang === "en" ? "" : `<p class="en-q" lang="en">${escapeHtml(item.q.en)}</p>`;
+    $("diff-asked").innerHTML = `<div class="tags"><span class="tag">${escapeHtml(scenarioLabel(item.scenario))}</span><span class="tag soft">${escapeHtml(item.id)}</span><span class="tag soft">${escapeHtml(info.name)}</span></div>
+      <p class="asked" lang="${info.htmlLang}">${escapeHtml(item.q[lang])}</p>${english}`;
+    const systems = state.eval.systems.filter((sys) => item.a[lang][sys]);
+    const grid = $("diff-grid");
+    grid.style.setProperty("--cols", systems.length);
+    grid.innerHTML = systems.map((sys) => diffCard(sys, item.a[lang][sys], lang)).join("");
+  }
+
+  function setupDifference() {
+    const select = $("diff-question");
+    const groups = [];
+    for (const it of state.eval.items) if (!groups.includes(it.scenario)) groups.push(it.scenario);
+    select.innerHTML = groups.map((s) => `<optgroup label="${escapeHtml(scenarioLabel(s))}">${state.eval.items
+      .filter((it) => it.scenario === s)
+      .map((it) => `<option value="${escapeHtml(it.id)}">${escapeHtml(it.q.en)}</option>`)
+      .join("")}</optgroup>`).join("");
+    if (state.eval.items.some((it) => it.id === DEFAULT_EVAL.id)) select.value = DEFAULT_EVAL.id;
+    select.addEventListener("change", renderDiff);
+    $("diff-lang").addEventListener("click", (event) => {
+      const btn = event.target.closest(".lang-option");
+      if (!btn) return;
+      state.evalLang = btn.dataset.lang;
+      for (const el of $("diff-lang").children) el.setAttribute("aria-checked", String(el === btn));
+      renderDiffSummary();
+      renderDiff();
+    });
+    renderDiffLangs();
+    renderDiffSummary();
+    renderDiff();
+  }
+
+  async function loadEval() {
+    try {
+      const response = await fetch("eval.json");
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      state.eval = await response.json();
+    } catch (error) {
+      const box = $("diff-error");
+      box.hidden = false;
+      box.textContent = `Could not load eval.json (${error.message}): run "python scripts/build_demo.py", then serve the demo folder with "python -m http.server".`;
+      return;
+    }
+    setupDifference();
+  }
+
   function renderStats() {
     const { items, languages } = state.data;
     const rows = items.reduce((n, it) => n + Object.keys(it.p).length, 0);
@@ -395,6 +545,7 @@
   }
 
   async function init() {
+    loadEval();
     try {
       const response = await fetch("data.json");
       if (!response.ok) throw new Error(`HTTP ${response.status}`);

@@ -20,6 +20,11 @@
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-history" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.3-5.6M4 4v4h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 8v4l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 4v16M7 20h10M5 7h14M12 4l-1 3h2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="m5 7-3 6a3 3 0 0 0 6 0zM19 7l-3 6a3 3 0 0 0 6 0z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="m8 12.5 2.6 2.5L16 9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="m9 9 6 6M15 9l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-steps" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="m3 6 1.3 1.3L6.5 5M3 12l1.3 1.3L6.5 11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="4.6" cy="18" r="1.4" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
 </svg>
 
 <div class="bg" aria-hidden="true"><span></span><span></span><span></span></div>
@@ -35,6 +40,7 @@
     </a>
     <nav class="nav" aria-label="Sections">
       <a href="#ask"><svg><use href="#i-chat"/></svg><span>Ask</span></a>
+      <a href="#difference"><svg><use href="#i-scale"/></svg><span>Difference</span></a>
       <a href="#compare"><svg><use href="#i-columns"/></svg><span>Compare</span></a>
       <a href="#browse"><svg><use href="#i-list"/></svg><span>Browse</span></a>
     </nav>
@@ -77,6 +83,30 @@
     </div>
 
     <div id="answer" class="answer" aria-live="polite"></div>
+  </section>
+
+  <section id="difference" class="card">
+    <div class="section-head">
+      <span class="section-icon"><svg><use href="#i-scale"/></svg></span>
+      <div>
+        <h2>See the difference</h2>
+        <p>80 test questions that are not in the dataset. The same model answered each one on its own and with rows from the dataset; two judge models checked every answer.</p>
+      </div>
+    </div>
+    <p class="load-error" id="diff-error" hidden></p>
+    <div class="diff-controls">
+      <div class="field grow">
+        <label for="diff-question">Test question</label>
+        <select id="diff-question"></select>
+      </div>
+      <div class="field">
+        <span class="field-label" id="diff-lang-label">Language</span>
+        <div class="lang-picker diff-langs" role="radiogroup" aria-labelledby="diff-lang-label" id="diff-lang"></div>
+      </div>
+    </div>
+    <div class="diff-summary" id="diff-summary" aria-live="polite"></div>
+    <div class="diff-question" id="diff-asked"></div>
+    <div class="diff-grid" id="diff-grid"></div>
   </section>
 
   <section id="compare" class="card">
