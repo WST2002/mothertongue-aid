@@ -60,7 +60,7 @@ All 1,212 rows passed our automated rule checks and a twice-read model meaning c
 - `evaluation/`: the held-out questions, every answer and every judge verdict (`evaluation/raw/`), both judges' reports, the either/both-judge danger rates, the emergency-number check, the plain-translation baseline rows, Adaption Custom Eval results, per-row rubric scores and the AutoScientist run.
 - `adaption/`: every Adaption run ID and the exact Blueprint text used.
 - `evidence/`: screenshot of Adaption's built-in quality score.
-- `docs/`: source of the demo. **See the difference** puts the 80 test questions side by side: the model's answer on its own, with plain-translation rows and with MotherTongue Aid rows, each with the judges' verdict, the right-number check and an English translation. **Ask** finds the most similar dataset question by text matching and shows its checked answer; **Compare** and **Browse** show every row in every language. The demo writes no new advice and calls no model.
+- `docs/`: source of the demo. **See the difference** puts the 80 test questions side by side: the model's answer on its own, with plain-translation rows and with MotherTongue Aid rows, each with the judges' verdict, the right-number check and an English translation. **Find a checked answer** finds the most similar dataset question by text matching and shows its checked answer; **Compare** and **Browse** show every row in every language. The demo writes no new advice and calls no model.
 
 **Columns**
 
