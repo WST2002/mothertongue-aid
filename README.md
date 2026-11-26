@@ -70,7 +70,7 @@ The few rows that refuse a medicine dose or diagnosis were written by the datase
    - `length: concise`, safety categories `violence` and `self_harm`,
    - a Blueprint (system rules) that keeps every step, its order and every "Do not" line, puts the country's emergency number first, and fixes known Hausa wording mistakes.
 4. **Custom Evals.** Our own safety rubric was run inside Adaption (see "Notes on Adaption's scores").
-5. **AutoScientist.** (added after the training run)
+5. **AutoScientist** (optional training). The final 1,212 rows were uploaded as a raw dataset and used to fine-tune `Qwen/Qwen3.5-9B` (LoRA r 16, 1 epoch, learning rate 5e-5, recommended by AutoScientist; one iteration, about 35 minutes). AutoScientist reports a win rate of 21.7% for the tuned model against the base model (target 70%), so we do not claim a model improvement; the dataset evaluation below is our evidence. Run details: `evaluation/autoscientist_run.json`.
 
 ## Quality checks on every row
 
