@@ -6,9 +6,9 @@ An open dataset that teaches AI assistants safe emergency first aid in Hausa and
 
 **Results at a glance** (80 held-out questions, two judges):
 
-- Given these rows, a model gives dangerous first-aid advice in Hausa about 7% of the time instead of 33–39% on its own, and in Bengali 0–4% instead of 14–25%.
-- In Hausa and Bengali the answer opens with the right local emergency number 65–70% of the time instead of 5–16%, and 9–15 points more often than with the original English rows.
-- Every one of the 1,212 rows passed rule checks and a twice-read meaning check against the source guidance.
+- Given these rows, a model gives dangerous first-aid advice in Hausa 8.8% of the time instead of 48.8% on its own, and in Bengali 2.5–3.8% instead of 26.2% (flagged by either of two judges).
+- Compared with a plain machine translation of the same rows, the Adaption rows make the answer open with the right local emergency number 5–11 points more often, with about the same safety and coverage.
+- Every one of the 1,212 rows passed automated rule checks and a twice-read model meaning check against the source guidance.
 
 ## Why this exists
 
@@ -36,7 +36,7 @@ Files:
 - `data/original/seed_en.jsonl` and `.csv`: the original English dataset it was built from (303 rows).
 - `evaluation/`: held-out questions, judge reports and Custom Eval results.
 - `adaption/`: the Adaption run IDs and the Blueprint text used for each run.
-- `docs/`: the web demo, live at **https://wst2002.github.io/mothertongue-aid/**: ask an emergency question in any of the four languages and get the checked answer, compare languages side by side, browse every row.
+- `docs/`: the web demo, live at **https://wst2002.github.io/mothertongue-aid/**: a dataset explorer. Type an emergency question in any of the four languages and it shows the closest checked row (text matching, no model), compare languages side by side, browse every row.
 
 Columns:
 
@@ -83,39 +83,43 @@ Rows that fail in every adapted version are sent back through Adaptive Data for 
 
 ## Evaluation
 
-**Method.** 80 held-out emergency questions that are not in the dataset, each with a list of steps the answer must include and things it must not say. Each question is asked in English, Hausa (Nigeria), Bengali (Bangladesh) and Bengali (India), and answered by the same model (`gemma-4-26b-a4b-it`) in three ways:
+**Method.** 80 held-out emergency questions that are not in the dataset, each with a list of steps the answer must include and things it must not say. Each question is asked in English, Hausa (Nigeria), Bengali (Bangladesh) and Bengali (India), and answered by the same model (`gemma-4-26b-a4b-it`) in four ways:
 
 - **plain**: the model alone;
 - **original**: the model plus the 3 closest rows of the original English dataset;
+- **translated**: the model plus the same 3 original rows, machine-translated into the question's language without Adaption (Hausa and Bengali only). This shows what Adaption adds beyond plain translation;
 - **improved**: the model plus the same 3 rows from the improved dataset, in the question's language.
 
-Two judges from different model families (`deepseek-v4-flash`, `glm-5.2`) translate each answer to English and check it. 960 answers, each judged twice.
+All four use the same retrieved rows (found from the English question), so only the text of the rows changes. Two judges from different model families (`deepseek-v4-flash`, `glm-5.2`) translate each answer to English and check it: 1,200 answers, each judged twice.
 
-**Results** (percent of the 80 questions; where the judges differ, both are shown as deepseek / glm):
+**Results** (percent of the 80 questions; where the two judges differ on a column, both are shown as deepseek / glm):
 
-| Language | System | Dangerous advice ↓ | Required steps included ↑ | Emergency number first ↑ |
-|---|---|---|---|---|
-| Hausa (NG) | plain | 38.8 / 32.5 | 31.2 / 30.4 | 5.0 |
-| | original | 15.0 / 5.0 | 81.8 / 82.7 | 55.0 / 57.5 |
-| | **improved** | **7.5 / 6.2** | 79.3 / 78.8 | **70.0 / 68.8** |
-| Bengali (BD) | plain | 25.0 / 15.0 | 52.8 / 54.7 | 7.5 / 8.8 |
-| | original | 2.5 / 1.2 | 84.8 / 85.0 | 56.2 |
-| | **improved** | 3.8 / **0.0** | 84.0 / 84.7 | **65.0** |
-| Bengali (IN) | plain | 25.0 / 13.8 | 50.9 / 53.3 | 12.5 / 16.2 |
-| | original | 3.8 / 1.2 | 85.0 / 85.7 | 52.5 |
-| | **improved** | **2.5 / 0.0** | 80.0 / 81.5 | **65.0** |
-| English | plain | 8.8 / 3.8 | 74.0 / 77.1 | 75.0 / 76.2 |
-| | original | 0.0 | 82.8 / 86.9 | 67.5 / 66.2 |
-| | **improved** | 3.8 / 1.2 | 80.2 / 83.3 | **80.0** |
+| Language | System | Dangerous advice, either judge ↓ | Dangerous, both judges ↓ | Required steps included ↑ | Emergency number first ↑ |
+|---|---|---|---|---|---|
+| Hausa (NG) | plain | 48.8 | 22.5 | 31.2 / 30.4 | 5.0 |
+|  | original | 15.0 | 5.0 | 81.8 / 82.7 | 55.0 / 57.5 |
+|  | translated | 10.0 | 3.8 | 79.3 / 81.0 | 58.8 / 57.5 |
+|  | **improved** | 8.8 | 5.0 | 79.3 / 78.8 | 70.0 / 68.8 |
+| Bengali (BD) | plain | 26.2 | 13.8 | 52.8 / 54.7 | 7.5 / 8.8 |
+|  | original | 3.8 | 0.0 | 84.8 / 85.0 | 56.2 |
+|  | translated | 3.8 | 0.0 | 83.9 / 84.2 | 60.0 |
+|  | **improved** | 3.8 | 0.0 | 84.0 / 84.7 | 65.0 |
+| Bengali (IN) | plain | 26.2 | 12.5 | 50.9 / 53.3 | 12.5 / 16.2 |
+|  | original | 5.0 | 0.0 | 85.0 / 85.7 | 52.5 |
+|  | translated | 1.2 | 0.0 | 83.2 | 57.5 / 55.0 |
+|  | **improved** | 2.5 | 0.0 | 80.0 / 81.5 | 65.0 |
+| English | plain | 8.8 | 3.8 | 74.0 / 77.1 | 75.0 / 76.2 |
+|  | original | 0.0 | 0.0 | 82.8 / 86.9 | 67.5 / 66.2 |
+|  | **improved** | 3.8 | 1.2 | 80.2 / 83.3 | 80.0 |
 
-The judges agree on "dangerous" for 95–98% of the improved answers. Full numbers: `evaluation/report_deepseek.json`, `evaluation/report_glm.json`.
+The judges agree on "dangerous" for 95–99% of the improved and translated answers. Full numbers: `evaluation/report_deepseek.json`, `evaluation/report_glm.json`, `evaluation/report_dangerous_consensus.json`; the translated rows are in `evaluation/translated_baseline_rows.jsonl`.
 
 **What this shows**
 
-- Against the model alone, the dataset cuts dangerous answers in Hausa from about 1 in 3 to about 1 in 14, and in Bengali from about 1 in 4 to almost none, while the share of required steps goes from 30–55% to about 80%.
-- Against the original English rows, the improved rows mainly change *how* help starts: the answer opens with the right local emergency number 9–15 points more often in every language, and Hausa dangerous answers halve by one judge (15.0 → 7.5) while the other judge sees no clear change (5.0 → 6.2).
-- Required-steps coverage is 1–5 points lower with the improved rows than with the English ones. The improved answers are shorter by design (`length: concise`), so some optional detail is dropped.
-- Most of the remaining dangerous answers come from retrieval, not from the rows: the simple word-overlap search sometimes picks the wrong emergency (for example, bleeding steps for a burn from a motorbike exhaust), and the model follows them. A better retriever would help both systems.
+- **Against the model alone**, the dataset cuts dangerous answers (flagged by either judge) in Hausa from 48.8% to 8.8%, and in Bengali from 26.2% to 2.5–3.8%, and the share of required steps rises from 30–55% to about 80%.
+- **Against plain translation of the same rows**, the Adaption rows open with the right local emergency number 5–11 points more often in every language (Hausa 58.8 → 70.0, Bengali BD 60.0 → 65.0, Bengali IN 57.5 → 65.0). Dangerous answers and required-steps coverage stay about the same as with plain translation.
+- **Against the original English rows**, the emergency number improves by 9–15 points and Hausa dangerous answers fall from 15.0% to 8.8%. Required-steps coverage is 1–5 points lower; the Adaption answers are shorter by design (`length: concise`).
+- Most remaining dangerous answers come from retrieval picking the wrong emergency (for example bleeding steps for a burn from a motorbike exhaust), which affects all systems equally.
 
 ## Runs, settings and iterations
 
@@ -140,11 +144,11 @@ The judges agree on "dangerous" for 95–98% of the improved answers. Full numbe
 
 ## Notes on Adaption's scores
 
-Adaption's built-in quality score goes down on every run of this dataset, from about 7–8 before to about 4 after (for example the India run: 8.0 → 4.1, grade B → D; screenshot in `evidence/adaption-measure-india.png`). The same pattern shows on runs whose rows pass every check above. The run page lists the language as English and counts 606 rows (303 original + 303 expanded) for a Bengali run, so it is not clear which text the score reads.
+Adaption's built-in quality score goes down on every run of this dataset, from about 7–8 before to about 4 after (for example the India run: 8.0 → 4.1, grade B → D; screenshot in `evidence/adaption-measure-india.png`). The same pattern shows on runs whose rows pass every check above. The run page lists the language as English and counts 606 rows (303 original + 303 expanded) for a Bengali run. We have not established which text or fields the score reads, so we do not claim that the platform score improved.
 
 Our own safety rubric, run inside Adaption as a Custom Eval on a 100-row sample, shows the same drop: before 9.3–9.7, after 2.7–5.6 on the Nigeria, Bangladesh, India and English runs. The same rubric text, scored by our judge on every row of the final dataset, gives 9.33 for the English seed answers and 9.05 (Hausa), 8.87 (Bengali, Bangladesh), 9.13 (Bengali, India) and 9.12 (English) for the improved rows. Most of the low per-row scores are the judge objecting to "inwards and upwards" chest thrusts, which is the Health New Zealand wording and is also in the seed.
 
-We reported this to Adaption with the run IDs, and on Hackyard's advice we show both: the platform score here, and our own before/after evaluation in the section above, which checks every answer against the source guidance.
+We reported this to Adaption with the run IDs (25 Nov; no reply yet), and on Hackyard's advice we publish both result sets rather than choosing the favourable one: the platform scores here, and our own held-out evaluation above, whose improvement claims stand on their own.
 
 ## Limitations
 
