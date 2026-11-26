@@ -165,6 +165,17 @@ Adaption's built-in quality score goes down on our runs, from about 7–8 before
 
 Our safety rubric, run inside Adaption as a Custom Eval on a 100-row sample, also drops: before 9.3–9.7, after 2.7–5.6 on the Nigeria, Bangladesh, India and English runs. The same rubric text, scored by our judge on every row of the final file, gives 9.33 for the original English answers and 9.05 (Hausa), 8.87 (Bengali BD), 9.13 (Bengali IN) and 9.12 (English) for the improved rows. The lowest per-row scores mostly come from the judge objecting to "inwards and upwards" chest thrusts, which is the Health NZ wording and is also in the original rows.
 
+**A controlled test of what moves the score** (`evaluation/score_probe/`). We ran the same 40 English rows through Adaptive Data four times, changing one setting each time:
+
+| Run | Adaption quality, before → after | Rows that pass our rule checks |
+|---|---|---|
+| our settings | 7.0 → 3.9 | 40 of 40 |
+| without `length: concise` | 7.0 → 4.0 | 40 of 40 |
+| without the `reference_answer` context | 7.0 → 4.4 | 37 of 40 |
+| **without the Blueprint** | **7.0 → 7.5** | **9 of 40** |
+
+Only removing the Blueprint raises the platform score. Those higher-scoring rows put the US number 911 in 26 of 40 answers, add abdominal thrusts (not in the Health NZ guidance) to 5, are three times longer (306 words on average instead of 96), and often talk to the user about the text ("The steps you provided are generally consistent with…") instead of answering the question. The Blueprint that keeps the answers on the checked guidance is what lowers the platform score, so for this safety dataset we keep the Blueprint and rely on the held-out evaluation.
+
 We reported this to Adaption with the run IDs on 25 Nov (no reply yet). Following the organisers' advice we publish both result sets. Our improvement claims rest on the held-out evaluation above.
 
 ## Limitations
@@ -195,6 +206,7 @@ Every run ID is in `adaption/runs.md`. The main steps:
 | 25 Nov 22:30 | meaning check, final version | judge sees the question and country, reads each row twice | stricter and fairer; 81 rows sent back |
 | 26 Nov 12:30 | fix runs 3 to 7 | Blueprint names phrases that kept changing (cover, not wipe; cool shower, not a bath; head and jaw; tell the operator it is a baby) | 81 → 31 → 13 → 3 → 0: all 1,212 rows pass |
 | 26 Nov | evaluation | 80 held-out questions, 1,200 answers, two judges, plain-translation baseline | see [Evaluation](#evaluation) |
+| 26 Nov 22:20 | score probe, 4 × 40 rows | one setting removed per run | only removing the Blueprint raises the platform score, and those rows fail our checks (see [Notes on Adaption's scores](#notes-on-adaptions-scores)) |
 
 ## Team
 
