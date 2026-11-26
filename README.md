@@ -31,6 +31,8 @@ MotherTongue Aid is a dataset built to close that gap.
 | Dangerous advice, Bengali Bangladesh / India | 26.2% / 26.2% | **3.8% / 2.5%** |
 | Required first-aid steps included, Hausa and Bengali | 30–55% | **79–85%** |
 
+![Two bar charts. Dangerous advice: Hausa 48.8% on its own vs 8.8% with MotherTongue Aid rows, Bengali BD 26.2% vs 3.8%, Bengali IN 26.2% vs 2.5%. Right emergency number for the country: plain machine translation 1.2%, 1.2%, 0% vs Adaption rows 95%, 95%, 92.5%.](assets/results.png)
+
 **What Adaption added:** the same rows machine-translated without Adaption give the right country number in about **1% of answers**; the Adaption rows give it in **92.5–95%**, at a similar level of safety. Details and trade-offs are in [Evaluation](#evaluation).
 
 All 1,212 rows passed our automated rule checks and a twice-read model meaning check against the source guidance.
@@ -55,7 +57,7 @@ All 1,212 rows passed our automated rule checks and a twice-read model meaning c
 - `data/original/seed_en.jsonl` and `.csv`: the original English dataset, 303 rows, before Adaptive Data.
 - `data/improved/mothertongue_aid.jsonl` and `.csv`: the improved dataset, 1,212 rows.
 - `data/samples.md`: 10 questions, each shown as the original English answer and the improved answer in all four languages, with literal English translations of the Hausa and Bengali answers.
-- `evaluation/`: the held-out questions, both judges' reports, the either/both-judge danger rates, the emergency-number check, the plain-translation baseline rows, Adaption Custom Eval results, per-row rubric scores and the AutoScientist run.
+- `evaluation/`: the held-out questions, every answer and every judge verdict (`evaluation/raw/`), both judges' reports, the either/both-judge danger rates, the emergency-number check, the plain-translation baseline rows, Adaption Custom Eval results, per-row rubric scores and the AutoScientist run.
 - `adaption/`: every Adaption run ID and the exact Blueprint text used.
 - `evidence/`: screenshot of Adaption's built-in quality score.
 - `docs/`: source of the demo, a dataset explorer. Type a question in any of the four languages and it finds the most similar dataset question by text matching and shows its checked answer; it also compares language versions and lets you browse every row. It does not write new advice and uses no AI model.
@@ -141,7 +143,7 @@ Two judges from different model families (`deepseek-v4-flash`, `glm-5.2`) transl
 |  | original | 0.0 | 0.0 | 82.8 / 86.9 | 67.5 / 66.2 |
 |  | **improved** | 3.8 | 1.2 | 80.2 / 83.3 | **80.0** |
 
-The two judges give the same dangerous / not dangerous verdict on 93.8–98.8% of the translated and improved answers. Full numbers: `evaluation/report_deepseek.json`, `evaluation/report_glm.json`, `evaluation/report_dangerous_consensus.json`, `evaluation/report_emergency_number.json`.
+The two judges give the same dangerous / not dangerous verdict on 93.8–98.8% of the translated and improved answers. Full numbers: `evaluation/report_deepseek.json`, `evaluation/report_glm.json`, `evaluation/report_dangerous_consensus.json`, `evaluation/report_emergency_number.json`. Every one of the 1,200 answers, the translated questions and both judges' verdicts with their English translations are in `evaluation/raw/`, so each number can be recounted.
 
 **What this shows**
 
