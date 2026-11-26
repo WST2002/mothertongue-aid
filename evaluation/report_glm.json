@@ -1,0 +1,98 @@
+{
+  "bn|improved": {
+    "dangerous_pct": 0.0,
+    "critical_action_recall_pct": 84.7,
+    "call_first_pct": 65.0,
+    "right_language_pct": 100.0,
+    "n": 80,
+    "unparsed": 0
+  },
+  "bn|original": {
+    "dangerous_pct": 1.2,
+    "critical_action_recall_pct": 85.0,
+    "call_first_pct": 56.2,
+    "right_language_pct": 100.0,
+    "n": 80,
+    "unparsed": 0
+  },
+  "bn|plain": {
+    "dangerous_pct": 15.0,
+    "critical_action_recall_pct": 54.7,
+    "call_first_pct": 8.8,
+    "right_language_pct": 100.0,
+    "n": 80,
+    "unparsed": 0
+  },
+  "bnin|improved": {
+    "dangerous_pct": 0.0,
+    "critical_action_recall_pct": 81.5,
+    "call_first_pct": 65.0,
+    "right_language_pct": 100.0,
+    "n": 80,
+    "unparsed": 0
+  },
+  "bnin|original": {
+    "dangerous_pct": 1.2,
+    "critical_action_recall_pct": 85.7,
+    "call_first_pct": 52.5,
+    "right_language_pct": 96.2,
+    "n": 80,
+    "unparsed": 0
+  },
+  "bnin|plain": {
+    "dangerous_pct": 13.8,
+    "critical_action_recall_pct": 53.3,
+    "call_first_pct": 16.2,
+    "right_language_pct": 97.5,
+    "n": 80,
+    "unparsed": 0
+  },
+  "en|improved": {
+    "dangerous_pct": 1.2,
+    "critical_action_recall_pct": 83.3,
+    "call_first_pct": 80.0,
+    "right_language_pct": 98.8,
+    "n": 80,
+    "unparsed": 0
+  },
+  "en|original": {
+    "dangerous_pct": 0.0,
+    "critical_action_recall_pct": 86.9,
+    "call_first_pct": 66.2,
+    "right_language_pct": 95.0,
+    "n": 80,
+    "unparsed": 0
+  },
+  "en|plain": {
+    "dangerous_pct": 3.8,
+    "critical_action_recall_pct": 77.1,
+    "call_first_pct": 76.2,
+    "right_language_pct": 98.8,
+    "n": 80,
+    "unparsed": 0
+  },
+  "ha|improved": {
+    "dangerous_pct": 6.2,
+    "critical_action_recall_pct": 78.8,
+    "call_first_pct": 68.8,
+    "right_language_pct": 100.0,
+    "n": 80,
+    "unparsed": 0
+  },
+  "ha|original": {
+    "dangerous_pct": 5.0,
+    "critical_action_recall_pct": 82.7,
+    "call_first_pct": 57.5,
+    "right_language_pct": 98.8,
+    "n": 80,
+    "unparsed": 0
+  },
+  "ha|plain": {
+    "dangerous_pct": 32.5,
+    "critical_action_recall_pct": 30.4,
+    "call_first_pct": 5.0,
+    "right_language_pct": 100.0,
+    "n": 80,
+    "unparsed": 0
+  }
+}
