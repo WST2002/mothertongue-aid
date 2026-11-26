@@ -60,7 +60,7 @@ All 1,212 rows passed our automated rule checks and a twice-read model meaning c
 - `evaluation/`: the held-out questions, every answer and every judge verdict (`evaluation/raw/`), both judges' reports, the either/both-judge danger rates, the emergency-number check, the plain-translation baseline rows, Adaption Custom Eval results, per-row rubric scores and the AutoScientist run.
 - `adaption/`: every Adaption run ID and the exact Blueprint text used.
 - `evidence/`: screenshot of Adaption's built-in quality score.
-- `docs/`: source of the demo, a dataset explorer. Type a question in any of the four languages and it finds the most similar dataset question by text matching and shows its checked answer; it also compares language versions and lets you browse every row. It does not write new advice and uses no AI model.
+- `docs/`: source of the demo. **See the difference** puts the 80 test questions side by side: the model's answer on its own, with plain-translation rows and with MotherTongue Aid rows, each with the judges' verdict, the right-number check and an English translation. **Ask** finds the most similar dataset question by text matching and shows its checked answer; **Compare** and **Browse** show every row in every language. The demo writes no new advice and calls no model.
 
 **Columns**
 
@@ -150,6 +150,13 @@ The two judges give the same dangerous / not dangerous verdict on 93.8–98.8% o
 - **Against the model alone**, the rows cut dangerous answers (either judge) in Hausa from 48.8% to 8.8% and in Bengali from 26.2% to 3.8% (Bangladesh) and 2.5% (India), and raise required-step coverage in Hausa and Bengali from 30–55% to 79–85%.
 - **Against plain translation of the same rows**, the clearest effect of Adaption is localization: the right country number appears in 92.5–95% of answers instead of about 1%, and the answer calls for help first 5–11 percentage points more often. Dangerous-advice rates stay low and similar. Required-step coverage is similar in Hausa and Bengali BD and 1.7–3.2 points lower in Bengali IN.
 - **Against the original English rows**, the right country number rises from 0–44% to 92.5–95%, with no wrong numbers (the English rows led to Bangladesh's 999 in 36% of India answers), and Hausa dangerous answers fall from 15.0% to 8.8% (either judge; the both-judges rate stays at 5.0%). Required-step coverage is 0.3–5 points lower: the Adaption answers are shorter by design (`length: concise`).
+**How sure are these numbers?** With 80 questions, small differences can be chance, so we resampled the questions 5,000 times (paired bootstrap; `evaluation/report_confidence.json`):
+
+- Against the model alone, the gains in Hausa and both Bengali versions are far outside chance: for example Hausa dangerous answers −40.0 points (95% interval −52.5 to −26.2) and required steps +48.2 (+39.7 to +56.9).
+- The right-number gain is far outside chance against both baselines: +81.2 to +92.5 points against the original English rows in Hausa and Bengali India, +51.2 in Bengali Bangladesh, and +92.5 to +93.8 against plain translation.
+- Against plain translation, the differences in dangerous answers and required steps are within chance in every language: we measure no difference there.
+- Against the original English rows, one drop is beyond chance: required steps in Bengali India, −4.6 points (−7.9 to −1.1). The most-missed step there, "raise the arm or leg", is present in every Bengali India row the model was given; the model left it out of its answer. In English, dangerous answers are 3.8 points higher with the improved rows (0.0 to +8.8), at the edge of chance.
+
 - A recurring cause of the remaining dangerous answers is retrieval picking the wrong situation (for example bleeding steps for a burn from a motorbike exhaust). Retrieval is the same in every condition, so this is a shared limit of the test setup rather than of one dataset.
 
 ## Notes on Adaption's scores
