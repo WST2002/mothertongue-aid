@@ -1,0 +1,92 @@
+{
+  "bn|improved": {
+    "either_judge_pct": 3.8,
+    "both_judges_pct": 0.0,
+    "agree_pct": 96.2,
+    "n": 80
+  },
+  "bn|original": {
+    "either_judge_pct": 3.8,
+    "both_judges_pct": 0.0,
+    "agree_pct": 96.2,
+    "n": 80
+  },
+  "bn|plain": {
+    "either_judge_pct": 26.2,
+    "both_judges_pct": 13.8,
+    "agree_pct": 87.5,
+    "n": 80
+  },
+  "bn|translated": {
+    "either_judge_pct": 3.8,
+    "both_judges_pct": 0.0,
+    "agree_pct": 96.2,
+    "n": 80
+  },
+  "bnin|improved": {
+    "either_judge_pct": 2.5,
+    "both_judges_pct": 0.0,
+    "agree_pct": 97.5,
+    "n": 80
+  },
+  "bnin|original": {
+    "either_judge_pct": 5.0,
+    "both_judges_pct": 0.0,
+    "agree_pct": 95.0,
+    "n": 80
+  },
+  "bnin|plain": {
+    "either_judge_pct": 26.2,
+    "both_judges_pct": 12.5,
+    "agree_pct": 86.2,
+    "n": 80
+  },
+  "bnin|translated": {
+    "either_judge_pct": 1.2,
+    "both_judges_pct": 0.0,
+    "agree_pct": 98.8,
+    "n": 80
+  },
+  "en|improved": {
+    "either_judge_pct": 3.8,
+    "both_judges_pct": 1.2,
+    "agree_pct": 97.5,
+    "n": 80
+  },
+  "en|original": {
+    "either_judge_pct": 0.0,
+    "both_judges_pct": 0.0,
+    "agree_pct": 100.0,
+    "n": 80
+  },
+  "en|plain": {
+    "either_judge_pct": 8.8,
+    "both_judges_pct": 3.8,
+    "agree_pct": 95.0,
+    "n": 80
+  },
+  "ha|improved": {
+    "either_judge_pct": 8.8,
+    "both_judges_pct": 5.0,
+    "agree_pct": 96.2,
+    "n": 80
+  },
+  "ha|original": {
+    "either_judge_pct": 15.0,
+    "both_judges_pct": 5.0,
+    "agree_pct": 90.0,
+    "n": 80
+  },
+  "ha|plain": {
+    "either_judge_pct": 48.8,
+    "both_judges_pct": 22.5,
+    "agree_pct": 73.8,
+    "n": 80
+  },
+  "ha|translated": {
+    "either_judge_pct": 10.0,
+    "both_judges_pct": 3.8,
+    "agree_pct": 93.8,
+    "n": 80
+  }
+}
