@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MotherTongue Aid</title>
+<meta name="description" content="Emergency first-aid answers in English, Hausa and Bengali, adapted from Health New Zealand guidance.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<svg class="sprite" aria-hidden="true">
+  <symbol id="i-cross" viewBox="0 0 24 24"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z" fill="currentColor"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z" fill="currentColor"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-columns" viewBox="0 0 24 24"><rect x="3" y="4" width="7" height="16" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="14" y="4" width="7" height="16" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="4" cy="6" r="1.4" fill="currentColor"/><circle cx="4" cy="12" r="1.4" fill="currentColor"/><circle cx="4" cy="18" r="1.4" fill="currentColor"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 20h20z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 10v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1.2" fill="currentColor"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.3-5.6M4 4v4h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 8v4l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+</svg>
+
+<div class="bg" aria-hidden="true"><span></span><span></span><span></span></div>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#ask">
+      <span class="brand-mark"><svg><use href="#i-cross"/></svg></span>
+      <span>
+        <strong>MotherTongue Aid</strong>
+        <small>First 10 Minutes</small>
+      </span>
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#ask"><svg><use href="#i-chat"/></svg><span>Ask</span></a>
+      <a href="#compare"><svg><use href="#i-columns"/></svg><span>Compare</span></a>
+      <a href="#browse"><svg><use href="#i-list"/></svg><span>Browse</span></a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="intro">
+    <h1>Emergency first aid, in the language people ask in.</h1>
+    <p>Checked first-aid answers in English, Hausa and Bengali, each starting with the right emergency number for the country.</p>
+    <p class="stats" id="stats"></p>
+  </section>
+
+  <p class="load-error" id="load-error" hidden></p>
+
+  <section id="ask" class="card ask">
+    <div class="section-head">
+      <span class="section-icon"><svg><use href="#i-chat"/></svg></span>
+      <div>
+        <h2>Ask the assistant</h2>
+        <p>Type what is happening, in any of the four languages. Choose the language for the answer.</p>
+      </div>
+    </div>
+
+    <div class="lang-picker" role="radiogroup" aria-label="Answer language" id="lang-picker"></div>
+
+    <form class="ask-form" id="ask-form">
+      <label class="sr-only" for="ask-input">Your emergency question</label>
+      <span class="input-wrap">
+        <svg class="field-icon"><use href="#i-search"/></svg>
+        <input id="ask-input" type="text" autocomplete="off" placeholder="For example: my baby is choking, what do I do?">
+      </span>
+      <button type="submit" class="btn-primary"><span>Get answer</span><svg><use href="#i-arrow"/></svg></button>
+    </form>
+
+    <div class="examples">
+      <span class="examples-label">Try an example</span>
+      <div class="chips" id="examples"></div>
+    </div>
+
+    <div id="answer" class="answer" aria-live="polite"></div>
+  </section>
+
+  <section id="compare" class="card">
+    <div class="section-head">
+      <span class="section-icon"><svg><use href="#i-columns"/></svg></span>
+      <div>
+        <h2>Compare languages</h2>
+        <p>Pick a question to see the English reference answer next to the Hausa and Bengali answers.</p>
+      </div>
+    </div>
+    <div class="field">
+      <label for="compare-select">Question</label>
+      <select id="compare-select"></select>
+    </div>
+    <div class="compare-meta" id="compare-meta"></div>
+    <div class="compare-grid" id="compare-grid"></div>
+    <details class="seed" id="compare-seed">
+      <summary><svg><use href="#i-history"/></svg><span>Before: the original English seed answer</span><svg class="chev"><use href="#i-chevron"/></svg></summary>
+      <div class="seed-body" id="compare-seed-body"></div>
+    </details>
+  </section>
+
+  <section id="browse" class="card">
+    <div class="section-head">
+      <span class="section-icon"><svg><use href="#i-list"/></svg></span>
+      <div>
+        <h2>Browse the dataset</h2>
+        <p>Every row is one question and its checked answer in one language.</p>
+      </div>
+    </div>
+    <div class="counts" id="lang-counts"></div>
+    <div class="filters">
+      <div class="field">
+        <label for="f-lang">Language</label>
+        <select id="f-lang"></select>
+      </div>
+      <div class="field">
+        <label for="f-scenario">Emergency</label>
+        <select id="f-scenario"></select>
+      </div>
+      <div class="field grow">
+        <label for="f-text">Search</label>
+        <input id="f-text" type="search" placeholder="Search questions and answers">
+      </div>
+    </div>
+    <p class="result-count" id="result-count"></p>
+    <ul class="rows" id="rows"></ul>
+    <div class="pager" id="pager">
+      <button type="button" class="btn-ghost" id="prev">Previous</button>
+      <span id="page-info"></span>
+      <button type="button" class="btn-ghost" id="next">Next</button>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Adapted from Health New Zealand | Te Whatu Ora first-aid guidance, CC BY 4.0.</p>
+    <p>This page does not replace emergency services. In an emergency, call your local emergency number first.</p>
+    <p class="author">Wageesha Tripathi</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
