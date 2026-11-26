@@ -32,6 +32,18 @@ Dataset IDs of the Adaptive Data runs behind the final dataset, newest last.
 | `ng_fix6` | Hausa, Nigeria | `2b68a6b9-61d5-419b-ade1-d172f1c99765` |
 | `ng_fix8` | Hausa, Nigeria | `35f84aca-f839-400e-8844-e8936ccaf039` |
 | `ng_fix7` | Hausa, Nigeria | `4d40c890-17b8-4bf2-b605-84d55d7cfefa` |
+| `bd_fix6` | Bengali, Bangladesh | `d62e5877-c64a-44c5-b523-cc9a81af31b0` |
+| `in_fix6` | Bengali, India | `7495adf9-171e-4cea-911a-6143f36c7f45` |
+| `bd_fix7` | Bengali, Bangladesh | `a2b72283-a308-4f48-8285-9db006c6550f` |
+| `in_fix7` | Bengali, India | `ad086de2-dd5c-46f4-8cce-e9b36dd99c57` |
+| `bd_fix8` | Bengali, Bangladesh | `8059bb41-6512-41cb-a924-f5736509e1f3` |
+| `in_fix8` | Bengali, India | `6fb693c5-6c20-4a2e-b958-b73abb58a1db` |
+| `bd_fix9` | Bengali, Bangladesh | `ccbf5c88-1425-4641-919e-5c01bb9b4ff9` |
+| `in_fix9` | Bengali, India | `df649618-92ba-4709-ad81-85130c2b0b15` |
+| `bd_fix10` | Bengali, Bangladesh | `a954fa2d-755a-4e14-97ab-d9215aac5205` |
+| `in_fix10` | Bengali, India | `ada5e953-1bd6-4182-8a3b-f7b1946c0923` |
+| `bd_fix12` | Bengali, Bangladesh | `d818478d-9603-4ed3-8585-402166dbf0ab` |
+| `bd_fix11` | Bengali, Bangladesh | `e7e962c7-08ef-4303-bfbb-d10344b0b658` |
 
 Earlier runs with all languages in one run (a few final rows come from them; their Blueprints were earlier versions):
 
