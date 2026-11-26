@@ -2,6 +2,8 @@
 
 An open dataset that teaches AI assistants safe emergency first aid in Hausa and Bengali.
 
+**Demo:** https://wst2002.github.io/mothertongue-aid/
+
 **Results at a glance** (80 held-out questions, two judges):
 
 - Given these rows, a model gives dangerous first-aid advice in Hausa about 7% of the time instead of 33–39% on its own, and in Bengali 0–4% instead of 14–25%.
@@ -34,7 +36,7 @@ Files:
 - `data/original/seed_en.jsonl` and `.csv`: the original English dataset it was built from (303 rows).
 - `evaluation/`: held-out questions, judge reports and Custom Eval results.
 - `adaption/`: the Adaption run IDs and the Blueprint text used for each run.
-- `docs/`: the web demo (live on this repository's GitHub Pages): ask an emergency question, compare languages, browse rows.
+- `docs/`: the web demo, live at **https://wst2002.github.io/mothertongue-aid/**: ask an emergency question in any of the four languages and get the checked answer, compare languages side by side, browse every row.
 
 Columns:
 
