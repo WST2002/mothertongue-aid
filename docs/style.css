@@ -90,6 +90,9 @@ main { padding-bottom: 32px; }
 .intro h1 { margin: 0 0 8px; font-size: clamp(1.55rem, 4.2vw, 2.4rem); line-height: 1.2; letter-spacing: -0.01em; max-width: 22ch; }
 .intro p { margin: 0; color: var(--ink-soft); max-width: 60ch; }
 .intro .stats { margin-top: 12px; font-size: 0.9rem; color: var(--muted); }
+.intro .headline { margin-top: 14px; max-width: 680px; font-size: 1.02rem; line-height: 1.5; color: var(--ink); }
+.intro .headline strong { color: var(--accent-strong); }
+.intro .headline a { color: var(--accent-strong); font-weight: 600; white-space: nowrap; }
 .intro .notice { margin-top: 10px; max-width: 640px; font-size: 0.85rem; color: var(--muted); }
 
 .load-error { padding: 14px 16px; border-radius: 14px; background: var(--danger-tint); color: var(--danger); font-weight: 500; }
@@ -361,3 +364,4 @@ main { padding-bottom: 32px; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }
 }
+.nowrap { white-space: nowrap; }
