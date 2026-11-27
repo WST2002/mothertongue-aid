@@ -1,6 +1,6 @@
 # MotherTongue Aid: First 10 Minutes
 
-![MotherTongue Aid: emergency first aid in Hausa and Bengali. 1,212 checked question and answer pairs; dangerous answers in Hausa 49% to 9%; right emergency number 1% to 95%.](assets/banner.png)
+![MotherTongue Aid: emergency first aid in Hausa and Bengali. 1,212 checked question and answer pairs; dangerous answers in Hausa 49% to 7.5%; right emergency number 1% to 95%.](assets/banner.png)
 
 **Safe emergency first aid for AI assistants, in Hausa and Bengali.**
 
@@ -26,16 +26,16 @@ MotherTongue Aid is a dataset built to close that gap.
 
 | | Model on its own | With MotherTongue Aid rows |
 |---|---|---|
-| Answer gives the country's emergency number, no wrong number | 0–15% | **92.5–95%** |
-| Dangerous advice, Hausa (flagged by either of two judges) | 48.8% | **8.8%** |
-| Dangerous advice, Bengali Bangladesh / India | 26.2% / 26.2% | **3.8% / 2.5%** |
-| Required first-aid steps included, Hausa and Bengali | 30–55% | **79–85%** |
+| Answer gives the country's emergency number, no wrong number | 0–15% | **91.2–96.2%** |
+| Dangerous advice, Hausa (flagged by either of two judges) | 48.8% | **7.5%** |
+| Dangerous advice, Bengali Bangladesh / India | 26.2% / 26.2% | **3.8% / 3.8%** |
+| Required first-aid steps included, Hausa and Bengali | 30–55% | **79–86%** |
 
-![Two bar charts. Dangerous advice: Hausa 48.8% on its own vs 8.8% with MotherTongue Aid rows, Bengali BD 26.2% vs 3.8%, Bengali IN 26.2% vs 2.5%. Right emergency number for the country: plain machine translation 1.2%, 1.2%, 0% vs Adaption rows 95%, 95%, 92.5%.](assets/results.png)
+![Two bar charts. Dangerous advice: Hausa 48.8% on its own vs 7.5% with MotherTongue Aid rows, Bengali BD 26.2% vs 3.8%, Bengali IN 26.2% vs 3.8%. Right emergency number for the country: plain machine translation 1.2%, 1.2%, 0% vs Adaption rows 96.2%, 95%, 91.2%.](assets/results.png)
 
-**What Adaption added:** the same rows machine-translated without Adaption give the right country number in about **1% of answers**; the Adaption rows give it in **92.5–95%**, at a similar level of safety. Details and trade-offs are in [Evaluation](#evaluation).
+**What Adaption added:** the same rows machine-translated without Adaption give the right country number in about **1% of answers**; the Adaption rows give it in **91.2–96.2%**, at a similar level of safety. Details and trade-offs are in [Evaluation](#evaluation).
 
-All 1,212 rows passed our automated rule checks and a twice-read model meaning check against the source guidance.
+All 1,212 rows passed our automated rule checks, a twice-read meaning check by one judge model and a second check by a judge from another model family, all against the source guidance.
 
 ## What is in the dataset
 
@@ -100,6 +100,7 @@ For each question and language, the final file keeps the first Adaption version 
 
 - **Rule checks:** the country's own emergency number is present and no other country's number or name appears (English rows name no country number); no advice outside the Health NZ guidance this dataset follows (for example abdominal thrusts, or "do not give back blows" where back blows are the guidance); no draining water after drowning; no medicine doses; no known Hausa wording errors; Bengali back blows written as blows (চাপড়), not presses (চাপ); no rows in the wrong language.
 - **Meaning check:** `deepseek-v4-flash` compares each answer with its English reference and marks every difference as critical (could change what the rescuer does) or minor. It sees the question and the country, so leaving out a branch the question rules out is allowed (a cut wrist needs "raise the arm", not "the arm or leg"). Each row is read twice, independently; one critical finding rejects it.
+- **Second-family judge:** `glm-5.2` reads every final row with the same question. Any answer it marks as a critical change is dropped and the next version (or a new fix run) takes its place, until both judges pass every row.
 
 ## Evaluation
 
@@ -116,46 +117,50 @@ Two judges from different model families (`deepseek-v4-flash`, `glm-5.2`) transl
 
 **Emergency number** (rule check, percent of 80 answers):
 
+<!-- table:numbers -->
 | Condition | Hausa (112) | Bengali BD (999) | Bengali IN (112) |
 |---|---|---|---|
 | plain | 2.5 | 15.0 | 0.0 (11.2 give a wrong number) |
 | original | 13.8 | 43.8 | 0.0 (36.2 give a wrong number) |
 | translated | 1.2 | 1.2 | 0.0 |
-| **improved** | **95.0** | **95.0** | **92.5** (0 wrong) |
+| **improved** | **96.2** | **95.0** | **91.2** |
+<!-- /table:numbers -->
 
 **Judged results** (percent of 80 answers; where the two judges differ, both are shown as deepseek / glm):
 
+<!-- table:judged -->
 | Language | Condition | Dangerous, either judge ↓ | Dangerous, both judges ↓ | Required steps ↑ | Calls for help first ↑ |
 |---|---|---|---|---|---|
 | Hausa (NG) | plain | 48.8 | 22.5 | 31.2 / 30.4 | 5.0 |
 |  | original | 15.0 | 5.0 | 81.8 / 82.7 | 55.0 / 57.5 |
 |  | translated | 10.0 | 3.8 | 79.3 / 81.0 | 58.8 / 57.5 |
-|  | **improved** | **8.8** | 5.0 | 79.3 / 78.8 | **70.0 / 68.8** |
+|  | **improved** | 7.5 | 3.8 | 79.9 / 79.3 | 70.0 |
 | Bengali (BD) | plain | 26.2 | 13.8 | 52.8 / 54.7 | 7.5 / 8.8 |
 |  | original | 3.8 | 0.0 | 84.8 / 85.0 | 56.2 |
 |  | translated | 3.8 | 0.0 | 83.9 / 84.2 | 60.0 |
-|  | **improved** | 3.8 | 0.0 | 84.0 / 84.7 | **65.0** |
+|  | **improved** | 3.8 | 0.0 | 85.3 / 85.9 | 63.8 |
 | Bengali (IN) | plain | 26.2 | 12.5 | 50.9 / 53.3 | 12.5 / 16.2 |
 |  | original | 5.0 | 0.0 | 85.0 / 85.7 | 52.5 |
 |  | translated | 1.2 | 0.0 | 83.2 | 57.5 / 55.0 |
-|  | **improved** | 2.5 | 0.0 | 80.0 / 81.5 | **65.0** |
+|  | **improved** | 3.8 | 0.0 | 79.4 / 80.9 | 65.0 |
 | English | plain | 8.8 | 3.8 | 74.0 / 77.1 | 75.0 / 76.2 |
 |  | original | 0.0 | 0.0 | 82.8 / 86.9 | 67.5 / 66.2 |
-|  | **improved** | 3.8 | 1.2 | 80.2 / 83.3 | **80.0** |
+|  | **improved** | 3.8 | 1.2 | 80.5 / 83.6 | 80.0 |
+<!-- /table:judged -->
 
 The two judges give the same dangerous / not dangerous verdict on 93.8–98.8% of the translated and improved answers. Full numbers: `evaluation/report_deepseek.json`, `evaluation/report_glm.json`, `evaluation/report_dangerous_consensus.json`, `evaluation/report_emergency_number.json`. Every one of the 1,200 answers, the translated questions and both judges' verdicts with their English translations are in `evaluation/raw/`, so each number can be recounted.
 
 **What this shows**
 
-- **Against the model alone**, the rows cut dangerous answers (either judge) in Hausa from 48.8% to 8.8% and in Bengali from 26.2% to 3.8% (Bangladesh) and 2.5% (India), and raise required-step coverage in Hausa and Bengali from 30–55% to 79–85%.
-- **Against plain translation of the same rows**, the clearest effect of Adaption is localization: the right country number appears in 92.5–95% of answers instead of about 1%, and the answer calls for help first 5–11 percentage points more often. Dangerous-advice rates stay low and similar. Required-step coverage is similar in Hausa and Bengali BD and 1.7–3.2 points lower in Bengali IN.
-- **Against the original English rows**, the right country number rises from 0–44% to 92.5–95%, with no wrong numbers (the English rows led to Bangladesh's 999 in 36% of India answers), and Hausa dangerous answers fall from 15.0% to 8.8% (either judge; the both-judges rate stays at 5.0%). Required-step coverage is 0.3–5 points lower: the Adaption answers are shorter by design (`length: concise`).
+- **Against the model alone**, the rows cut dangerous answers (either judge) in Hausa from 48.8% to 7.5% and in Bengali from 26.2% to 3.8% (Bangladesh and India), and raise required-step coverage in Hausa and Bengali from 30–55% to 79–86%.
+- **Against plain translation of the same rows**, the clearest effect of Adaption is localization: the right country number appears in 91.2–96.2% of answers instead of 0–1.2%, and the answer calls for help first 3.8–11.2 percentage points more often. Dangerous-advice rates stay low and similar. Required-step coverage is similar in Hausa and Bengali BD and 3.0 points lower in Bengali IN.
+- **Against the original English rows**, the right country number rises from 0–44% to 91.2–96.2%, with no wrong numbers (the English rows led to Bangladesh's 999 in 36% of India answers), and Hausa dangerous answers fall from 15.0% to 7.5% (either judge; both judges: 5.0% to 3.8%). Required-step coverage is about the same in Hausa and Bengali BD and 5.2 points lower in Bengali IN; the Adaption answers are shorter by design (`length: concise`).
 **How sure are these numbers?** With 80 questions, small differences can be chance, so we resampled the questions 5,000 times (paired bootstrap; `evaluation/report_confidence.json`):
 
-- Against the model alone, the gains in Hausa and both Bengali versions are far outside chance: for example Hausa dangerous answers −40.0 points (95% interval −52.5 to −26.2) and required steps +48.2 (+39.7 to +56.9).
-- The right-number gain is far outside chance against both baselines: +81.2 to +92.5 points against the original English rows in Hausa and Bengali India, +51.2 in Bengali Bangladesh, and +92.5 to +93.8 against plain translation.
-- Against plain translation, the differences in dangerous answers and required steps are within chance in every language: we measure no difference there.
-- Against the original English rows, one drop is beyond chance: required steps in Bengali India, −4.6 points (−7.9 to −1.1). The most-missed step there, "raise the arm or leg", is present in every Bengali India row the model was given; the model left it out of its answer. In English, dangerous answers are 3.8 points higher with the improved rows (0.0 to +8.8), at the edge of chance.
+- Against the model alone, the gains in Hausa and both Bengali versions are far outside chance: for example Hausa dangerous answers −41.2 points (95% interval −53.8 to −27.5) and required steps +48.8 (+40.2 to +57.6).
+- The right-number gain is far outside chance against both baselines: +82.5 and +91.2 points against the original English rows in Hausa and Bengali India, +51.2 in Bengali Bangladesh, and +91.2 to +95.0 against plain translation.
+- Against plain translation, the differences in dangerous answers are within chance in every language, and so are the differences in required steps in Hausa and Bengali BD. In Bengali IN, required steps are 3.0 points lower (−5.6 to −0.7).
+- Against the original English rows, Hausa dangerous answers fall by 7.5 points (−15.0 to −1.2), beyond chance. One drop is also beyond chance: required steps in Bengali India, −5.2 points (−8.4 to −2.1). The most-missed step there, "raise the arm or leg", is present in all 24 Bengali India rows the model was given for those questions; the model left it out of its answer. In English, dangerous answers are 3.8 points higher with the improved rows (0.0 to +8.8), at the edge of chance.
 
 - A recurring cause of the remaining dangerous answers is retrieval picking the wrong situation (for example bleeding steps for a burn from a motorbike exhaust). Retrieval is the same in every condition, so this is a shared limit of the test setup rather than of one dataset.
 
@@ -208,6 +213,7 @@ Every run ID is in `adaption/runs.md`. The main steps:
 | 26 Nov | evaluation | 80 held-out questions, 1,200 answers, two judges, plain-translation baseline | see [Evaluation](#evaluation) |
 | 26 Nov 22:20 | score probe, 4 × 40 rows | one setting removed per run | only removing the Blueprint raises the platform score, and those rows fail our checks (see [Notes on Adaption's scores](#notes-on-adaptions-scores)) |
 | 26 Nov 23:30 | second-family judge | `glm-5.2` re-read the final rows | it caught what the first judge missed: 50 Bengali choking rows wrote back blows as "press" (চাপ দিন). New rule check and Blueprint rule; those 50 rows re-made in fix runs 6 to 12 until all passed again |
+| 27 Nov 01:00 | second judge as a gate | answers `glm-5.2` rejects are skipped; Blueprint keeps reason lines ("a burned child should always be seen by a health worker", "even if the person seems fine") and the reference's own cover (a non-stick dressing) | rows flagged by the second judge 55 → 0; all 1,212 rows pass both judges |
 
 ## Team
 
