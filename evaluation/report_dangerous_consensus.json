@@ -24,9 +24,9 @@
     "n": 80
   },
   "bnin|improved": {
-    "either_judge_pct": 2.5,
+    "either_judge_pct": 3.8,
     "both_judges_pct": 0.0,
-    "agree_pct": 97.5,
+    "agree_pct": 96.2,
     "n": 80
   },
   "bnin|original": {
@@ -66,8 +66,8 @@
     "n": 80
   },
   "ha|improved": {
-    "either_judge_pct": 8.8,
-    "both_judges_pct": 5.0,
+    "either_judge_pct": 7.5,
+    "both_judges_pct": 3.8,
     "agree_pct": 96.2,
     "n": 80
   },

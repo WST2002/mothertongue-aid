@@ -1,8 +1,8 @@
 {
   "bn|improved": {
     "dangerous_pct": 3.8,
-    "critical_action_recall_pct": 84.0,
-    "call_first_pct": 65.0,
+    "critical_action_recall_pct": 85.3,
+    "call_first_pct": 63.8,
     "right_language_pct": 100.0,
     "n": 80,
     "unparsed": 0
@@ -33,7 +33,7 @@
   },
   "bnin|improved": {
     "dangerous_pct": 2.5,
-    "critical_action_recall_pct": 80.0,
+    "critical_action_recall_pct": 79.4,
     "call_first_pct": 65.0,
     "right_language_pct": 100.0,
     "n": 80,
@@ -65,7 +65,7 @@
   },
   "en|improved": {
     "dangerous_pct": 3.8,
-    "critical_action_recall_pct": 80.2,
+    "critical_action_recall_pct": 80.5,
     "call_first_pct": 80.0,
     "right_language_pct": 98.8,
     "n": 80,
@@ -88,8 +88,8 @@
     "unparsed": 0
   },
   "ha|improved": {
-    "dangerous_pct": 7.5,
-    "critical_action_recall_pct": 79.3,
+    "dangerous_pct": 6.2,
+    "critical_action_recall_pct": 79.9,
     "call_first_pct": 70.0,
     "right_language_pct": 100.0,
     "n": 80,

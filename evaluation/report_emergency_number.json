@@ -15,7 +15,7 @@
     "n": 80
   },
   "ha|improved": {
-    "right_number_no_wrong_pct": 95.0,
+    "right_number_no_wrong_pct": 96.2,
     "wrong_number_pct": 0.0,
     "n": 80
   },
@@ -55,7 +55,7 @@
     "n": 80
   },
   "bnin|improved": {
-    "right_number_no_wrong_pct": 92.5,
+    "right_number_no_wrong_pct": 91.2,
     "wrong_number_pct": 0.0,
     "n": 80
   }
