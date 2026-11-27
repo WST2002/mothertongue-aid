@@ -44,6 +44,34 @@ Dataset IDs of the Adaptive Data runs behind the final dataset, newest last.
 | `in_fix10` | Bengali, India | `ada5e953-1bd6-4182-8a3b-f7b1946c0923` |
 | `bd_fix12` | Bengali, Bangladesh | `d818478d-9603-4ed3-8585-402166dbf0ab` |
 | `bd_fix11` | Bengali, Bangladesh | `e7e962c7-08ef-4303-bfbb-d10344b0b658` |
+| `english_fix6` | English | `005e5a0e-5fc5-47e6-a648-a44a5f8996c0` |
+| `ng_fix9` | Hausa, Nigeria | `70164957-193f-4fdf-8b23-0e6c3b110cce` |
+| `bd_fix13` | Bengali, Bangladesh | `0a88611b-42e3-454f-afe0-64749d87914b` |
+| `in_fix11` | Bengali, India | `43d280d8-563c-4585-9469-66857ebcc59f` |
+| `bd_fix14` | Bengali, Bangladesh | `05f37743-d7d2-4aa0-8392-bcad801f3f22` |
+| `ng_fix10` | Hausa, Nigeria | `86e947ed-9816-493c-b5cc-d594b91e805f` |
+| `in_fix12` | Bengali, India | `2fe11f83-73e8-4365-bbbf-109c91987a48` |
+| `english_fix7` | English | `036d5f65-c1b2-4701-a3e4-2a79f749379c` |
+| `bd_fix15` | Bengali, Bangladesh | `8a749526-2888-4d95-b973-3c40e2bd67e7` |
+| `in_fix13` | Bengali, India | `a0f8ac1f-95c5-4aa9-86d3-1427a0bacdd3` |
+| `english_fix8` | English | `fd734992-288e-499f-8e79-1b415fdf45df` |
+| `ng_fix11` | Hausa, Nigeria | `41871532-295b-49c1-996c-2493e205befc` |
+| `bd_fix17` | Bengali, Bangladesh | `09cb7548-0094-483c-a64c-382edaa961b9` |
+| `english_fix10` | English | `b1a4c0aa-c2f9-4bbf-8dcb-0c406343cc74` |
+| `bd_fix16` | Bengali, Bangladesh | `7ba83114-7417-42bb-85d3-48f61da19d04` |
+| `english_fix9` | English | `44c699d5-dbeb-41b8-901c-b1b48bef0e82` |
+| `english_fix11` | English | `e493988c-bff7-4623-a2cb-3059ed2c3010` |
+| `bd_fix18` | Bengali, Bangladesh | `22a2980f-7c66-4731-bf5b-56e8aec50a97` |
+| `english_fix12` | English | `33ecc916-9a67-432b-80f0-29b7d8942781` |
+| `bd_fix19` | Bengali, Bangladesh | `ff645ada-0423-42d4-ab0d-0a1e6e5040d7` |
+| `ng_fix12` | Hausa, Nigeria | `a46a7378-78b3-48eb-888c-b3a0ae7a9226` |
+| `in_fix14` | Bengali, India | `deb6e6b7-c42f-48aa-b9af-f673e0faf5cc` |
+| `english_fix13` | English | `729a6baa-4528-49c5-9db0-fbfe5c48a325` |
+| `bd_fix20` | Bengali, Bangladesh | `7b876af2-9850-48a8-9b7c-7f4269f8fad7` |
+| `ng_fix13` | Hausa, Nigeria | `dc7773f6-0a38-45a9-9d60-a8d0a89276ba` |
+| `ng_fix14` | Hausa, Nigeria | `77e4dcf9-9ba0-4799-8464-9af94394809a` |
+| `english_fix14` | English | `a4137d88-f742-448d-87dd-826a29658346` |
+| `english_fix15` | English | `99b64bd2-e7c1-4337-82c6-10321a684831` |
 
 Earlier runs with all languages in one run (a few final rows come from them; their Blueprints were earlier versions):
 
