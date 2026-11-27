@@ -37,6 +37,20 @@ MotherTongue Aid is a dataset built to close that gap.
 
 All 1,212 rows passed our automated rule checks, a twice-read meaning check by one judge model and a second check by a judge from another model family, all against the source guidance.
 
+## What makes this entry different
+
+- **It measures what matters in an emergency.** Not a generic quality score: whether the answer is dangerous, whether it keeps the life-saving steps, and whether it gives the right number for the country. Every one of the 1,200 test answers and every judge verdict is published, so each number can be recounted.
+- **It isolates what Adaption added.** Besides "model alone" and "original English rows", the test includes the same rows put through plain machine translation. Against that, Adaption's localization is what moves the right emergency number from about 1% to 91–96% of answers.
+- **It found where automatic checks fail, and fixed it.** A second judge from another model family flagged problems the first judge had passed, such as Bengali back blows written as "press" instead of "strike". Following its findings, 105 rows were re-made through Adaptive Data (50 by a new rule check, 55 flagged directly) until both judges passed every row.
+- **It explains the platform score instead of hiding it.** A controlled test (same 40 rows, one setting removed per run) shows Adaption's built-in score rises only when the safety Blueprint is removed, while those higher-scoring answers put the US number 911 in 26 of 40 rows. Useful for anyone using the platform score on a safety dataset.
+
+**A two-minute tour for judges**
+
+1. Open the demo's **See the difference**: https://wst2002.github.io/mothertongue-aid/#difference (the same question answered with and without these rows, with the judges' verdicts).
+2. Read [Results at a glance](#results-at-a-glance) and [Evaluation](#evaluation); the numbers come from `evaluation/`.
+3. Skim `data/samples.md`: 10 questions in every language, with English translations.
+4. See [Notes on Adaption's scores](#notes-on-adaptions-scores) for the controlled platform-score test.
+
 ## What is in the dataset
 
 **1,212 question and answer pairs:** 303 questions, each in four versions.
